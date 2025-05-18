@@ -1,5 +1,4 @@
 import '../App.css';
-// components/AuthModal.jsx
 import { useState } from 'react';
 import { FaTimes, FaUser, FaStore, FaArrowLeft } from 'react-icons/fa';
 
@@ -70,8 +69,8 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                             )}
                             <h3 className="text-2xl font-bold text-gray-800">
                                 {isRegister
-                                    ? `Register as ${type === 'user' ? 'User' : 'Business'}`
-                                    : `${type === 'user' ? 'User' : 'Business'} Login`}
+                                    ? `Registro ${type === 'user' ? 'usuario' : 'negocio'}`
+                                    : `Inicio de sesion ${type === 'user' ? 'usuario' : 'negocio'}`}
                             </h3>
                         </div>
                         <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
@@ -84,7 +83,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                             <>
                                 <div>
                                     <label className="block text-gray-700 mb-2">
-                                        {type === 'user' ? 'Full Name' : 'Business Name'}
+                                        {type === 'user' ? 'Nombre completo' : 'Nombre del negocio'}
                                     </label>
                                     <input
                                         type="text"
@@ -99,7 +98,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                                 {type === 'business' && (
                                     <>
                                         <div>
-                                            <label className="block text-gray-700 mb-2">Business Type</label>
+                                            <label className="block text-gray-700 mb-2">Tipo de negocio</label>
                                             <select
                                                 name="businessType"
                                                 value={formData.businessType}
@@ -107,7 +106,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                                                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                                 required
                                             >
-                                                <option value="">Select business type</option>
+                                                <option value="">Seleccionar tipo de negocio</option>
                                                 <option value="salon">Salon & Spa</option>
                                                 <option value="medical">Medical</option>
                                                 <option value="fitness">Fitness</option>
@@ -116,7 +115,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-gray-700 mb-2">Address</label>
+                                            <label className="block text-gray-700 mb-2">Direccion</label>
                                             <input
                                                 type="text"
                                                 name="address"
@@ -132,7 +131,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                         )}
 
                         <div>
-                            <label className="block text-gray-700 mb-2">Email</label>
+                            <label className="block text-gray-700 mb-2">Correo electronico</label>
                             <input
                                 type="email"
                                 name="email"
@@ -145,7 +144,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
 
                         {isRegister && type === 'user' && (
                             <div>
-                                <label className="block text-gray-700 mb-2">Phone Number</label>
+                                <label className="block text-gray-700 mb-2">Numero de celular</label>
                                 <input
                                     type="tel"
                                     name="phone"
@@ -158,7 +157,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                         )}
 
                         <div>
-                            <label className="block text-gray-700 mb-2">Password</label>
+                            <label className="block text-gray-700 mb-2">Contraseña</label>
                             <input
                                 type="password"
                                 name="password"
@@ -172,7 +171,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
 
                         {isRegister && (
                             <div>
-                                <label className="block text-gray-700 mb-2">Confirm Password</label>
+                                <label className="block text-gray-700 mb-2">Confirmar contraseña</label>
                                 <input
                                     type="password"
                                     name="confirmPassword"
@@ -189,7 +188,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                             type="submit"
                             className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all"
                         >
-                            {isRegister ? 'Register' : 'Login'}
+                            {isRegister ? 'Registrarme' : 'Entrar'}
                         </button>
 
                         <div className="text-center">
@@ -199,8 +198,8 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                                 className="text-blue-600 hover:underline"
                             >
                                 {isRegister
-                                    ? 'Already have an account? Login here'
-                                    : `Don't have an account? Register as ${type === 'user' ? 'User' : 'Business'}`}
+                                    ? '¿Ya tienes una cuenta?, Inicia sesion'
+                                    : `¿No tienes una cuenta?, Registrate como ${type === 'user' ? 'usuario' : 'negocio'}`}
                             </button>
                         </div>
                     </form>

@@ -32,7 +32,7 @@ const BusinessDashboard = ({ business }) => {
     const [workingHours, setWorkingHours] = useState({
         start: '9:00 AM',
         end: '5:00 PM',
-        duration: '30 minutes'
+        duration: '30 minutos'
     });
 
     const [businessInfo, setBusinessInfo] = useState({
@@ -48,13 +48,13 @@ const BusinessDashboard = ({ business }) => {
     const getStatusBadge = (status) => {
         switch (status) {
             case 'confirmed':
-                return <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Confirmed</span>;
+                return <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Confirmado</span>;
             case 'pending':
-                return <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Pending</span>;
+                return <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Pendiente</span>;
             case 'cancelled':
-                return <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">Cancelled</span>;
+                return <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">Cancelada</span>;
             default:
-                return <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">Unknown</span>;
+                return <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">Borrador</span>;
         }
     };
 
@@ -68,9 +68,9 @@ const BusinessDashboard = ({ business }) => {
                         <>
                             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
                                 <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-2xl font-bold">Today's Appointments</h2>
+                                    <h2 className="text-2xl font-bold">Administrar citas</h2>
                                     <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all">
-                                        <FaPlus className="mr-2" />Add Slot
+                                        <FaPlus className="mr-2" />Agendar cita
                                     </button>
                                 </div>
 
@@ -78,11 +78,11 @@ const BusinessDashboard = ({ business }) => {
                                     <table className="w-full">
                                         <thead>
                                             <tr className="bg-gray-100 text-gray-600 text-left">
-                                                <th className="p-3">Time</th>
-                                                <th className="p-3">Customer</th>
-                                                <th className="p-3">Service</th>
-                                                <th className="p-3">Status</th>
-                                                <th className="p-3">Actions</th>
+                                                <th className="p-3">Hora</th>
+                                                <th className="p-3">Cliente</th>
+                                                <th className="p-3">Servicio</th>
+                                                <th className="p-3">Estado</th>
+                                                <th className="p-3">Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -114,10 +114,10 @@ const BusinessDashboard = ({ business }) => {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="bg-white rounded-lg shadow-md p-6">
-                                    <h3 className="text-lg font-bold mb-4">Schedule Settings</h3>
+                                    <h3 className="text-lg font-bold mb-4">Ajustes de horario</h3>
                                     <div className="space-y-4">
                                         <div>
-                                            <label className="block text-gray-700 mb-2">Working Hours</label>
+                                            <label className="block text-gray-700 mb-2">Horas de trabajo</label>
                                             <div className="flex items-center space-x-4">
                                                 <select
                                                     value={workingHours.start}
@@ -127,7 +127,7 @@ const BusinessDashboard = ({ business }) => {
                                                     <option>9:00 AM</option>
                                                     <option>10:00 AM</option>
                                                 </select>
-                                                <span>to</span>
+                                                <span>a</span>
                                                 <select
                                                     value={workingHours.end}
                                                     onChange={(e) => setWorkingHours({ ...workingHours, end: e.target.value })}
@@ -139,28 +139,28 @@ const BusinessDashboard = ({ business }) => {
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-gray-700 mb-2">Appointment Duration</label>
+                                            <label className="block text-gray-700 mb-2">Duracion de la cita</label>
                                             <select
                                                 value={workingHours.duration}
                                                 onChange={(e) => setWorkingHours({ ...workingHours, duration: e.target.value })}
                                                 className="w-full border rounded-lg px-3 py-2"
                                             >
-                                                <option>30 minutes</option>
-                                                <option>45 minutes</option>
-                                                <option>60 minutes</option>
+                                                <option>30 minutos</option>
+                                                <option>45 minutos</option>
+                                                <option>60 minutos</option>
                                             </select>
                                         </div>
                                         <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all">
-                                            Save Changes
+                                            Guardar
                                         </button>
                                     </div>
                                 </div>
 
                                 <div className="bg-white rounded-lg shadow-md p-6">
-                                    <h3 className="text-lg font-bold mb-4">Business Information</h3>
+                                    <h3 className="text-lg font-bold mb-4">Informacion del negocio</h3>
                                     <div className="space-y-4">
                                         <div>
-                                            <label className="block text-gray-700 mb-2">Business Name</label>
+                                            <label className="block text-gray-700 mb-2">Nombre</label>
                                             <input
                                                 type="text"
                                                 value={businessInfo.name}
@@ -169,7 +169,7 @@ const BusinessDashboard = ({ business }) => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-gray-700 mb-2">Address</label>
+                                            <label className="block text-gray-700 mb-2">Direccion</label>
                                             <input
                                                 type="text"
                                                 value={businessInfo.address}
@@ -178,7 +178,7 @@ const BusinessDashboard = ({ business }) => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-gray-700 mb-2">Phone</label>
+                                            <label className="block text-gray-700 mb-2">Celular</label>
                                             <input
                                                 type="text"
                                                 value={businessInfo.phone}
@@ -187,7 +187,7 @@ const BusinessDashboard = ({ business }) => {
                                             />
                                         </div>
                                         <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all">
-                                            Update Information
+                                            Actualizar informacion
                                         </button>
                                     </div>
                                 </div>
@@ -197,21 +197,21 @@ const BusinessDashboard = ({ business }) => {
 
                     {activeTab === 'appointments' && (
                         <div className="bg-white rounded-lg shadow-md p-6">
-                            <h2 className="text-2xl font-bold mb-6">All Appointments</h2>
+                            <h2 className="text-2xl font-bold mb-6">Todas las citas</h2>
                             {/* Aquí iría la lista completa de citas */}
                         </div>
                     )}
 
                     {activeTab === 'customers' && (
                         <div className="bg-white rounded-lg shadow-md p-6">
-                            <h2 className="text-2xl font-bold mb-6">Customer Management</h2>
+                            <h2 className="text-2xl font-bold mb-6">Administrar clientes</h2>
                             {/* Aquí iría la gestión de clientes */}
                         </div>
                     )}
 
                     {activeTab === 'analytics' && (
                         <div className="bg-white rounded-lg shadow-md p-6">
-                            <h2 className="text-2xl font-bold mb-6">Business Analytics</h2>
+                            <h2 className="text-2xl font-bold mb-6">Reportes</h2>
                             {/* Aquí irían los gráficos y estadísticas */}
                         </div>
                     )}

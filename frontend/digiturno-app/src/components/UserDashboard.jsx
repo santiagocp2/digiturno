@@ -33,7 +33,9 @@ const UserDashboard = ({ user }) => {
             description: 'Professional hair styling and beauty services',
             rating: 4.5,
             distance: '1.2 miles away',
-            icon: 'cut'
+            icon: 'cut',
+            workingHours: { start: '09:00', end: '18:00' }, // Nuevo campo
+            appointmentDuration: 45 // Nuevo campo (minutos)
         },
         {
             id: 2,
@@ -41,22 +43,24 @@ const UserDashboard = ({ user }) => {
             description: 'Comprehensive healthcare services',
             rating: 5,
             distance: '2.5 miles away',
-            icon: 'heartbeat'
+            icon: 'heartbeat',
+            workingHours: { start: '08:00', end: '17:00' }, // Nuevo campo
+            appointmentDuration: 30 // Nuevo campo (minutos)
         }
     ]);
-
-
-    const handleBookAppointment = (business) => {
-        setSelectedBusiness(business);
-        setShowBookingModal(true);
-    };
 
     const handleConfirmAppointment = (newAppointment) => {
         setAppointments([...appointments, {
             ...newAppointment,
-            id: appointments.length + 1,
-            status: 'confirmed'
+            id: Date.now(),
+            status: 'confirmed',
+            customer: 'user name',
         }]);
+    };
+
+    const handleBookAppointment = (business) => {
+        setSelectedBusiness(business);
+        setShowBookingModal(true);
     };
 
     const handleCancelAppointment = (id) => {
@@ -66,13 +70,13 @@ const UserDashboard = ({ user }) => {
     const getStatusBadge = (status) => {
         switch (status) {
             case 'confirmed':
-                return <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Confirmed</span>;
+                return <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Confirmado</span>;
             case 'pending':
-                return <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Pending</span>;
+                return <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Pendiente</span>;
             case 'cancelled':
-                return <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">Cancelled</span>;
+                return <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">Cancelada</span>;
             default:
-                return <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">Unknown</span>;
+                return <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">Borrador</span>;
         }
     };
 
@@ -94,19 +98,7 @@ const UserDashboard = ({ user }) => {
                         <>
                             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
                                 <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-2xl font-bold">Upcoming Appointments</h2>
-                                    <button
-                                        onClick={() => handleBookAppointment({ name: 'New Business' })}
-                                        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all"
-                                    >
-                                        <FaPlus className="mr-2 inline" />Book Appointment
-                                    </button>
-                                    <BookingModal
-                                        show={showBookingModal}
-                                        onClose={() => setShowBookingModal(false)}
-                                        business={selectedBusiness}
-                                        onConfirm={handleConfirmAppointment}
-                                    />
+                                    <h2 className="text-2xl font-bold">Citas</h2>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -129,13 +121,13 @@ const UserDashboard = ({ user }) => {
                                             </div>
                                             <div className="flex space-x-2">
                                                 <button className="flex-1 bg-blue-50 text-blue-600 py-2 rounded-lg hover:bg-blue-100 transition-all">
-                                                    <FaEdit className="mr-1 inline" /> Reschedule
+                                                    <FaEdit className="mr-1 inline" /> Reagendar
                                                 </button>
                                                 <button
                                                     onClick={() => handleCancelAppointment(appointment.id)}
                                                     className="flex-1 bg-red-50 text-red-600 py-2 rounded-lg hover:bg-red-100 transition-all"
                                                 >
-                                                    <FaTimes className="mr-1 inline" /> Cancel
+                                                    <FaTimes className="mr-1 inline" /> Cancelar
                                                 </button>
                                             </div>
                                         </div>
@@ -144,17 +136,17 @@ const UserDashboard = ({ user }) => {
                             </div>
 
                             <div className="bg-white rounded-lg shadow-md p-6">
-                                <h2 className="text-2xl font-bold mb-6">Find Businesses</h2>
+                                <h2 className="text-2xl font-bold mb-6">Buscar negocios</h2>
 
                                 <div className="mb-6">
                                     <div className="flex">
                                         <input
                                             type="text"
-                                            placeholder="Search for businesses..."
+                                            placeholder="Buscar negocios..."
                                             className="flex-grow px-4 py-3 border rounded-l-lg focus:outline-none"
                                         />
                                         <select className="border-t border-b border-r px-4 py-3 focus:outline-none">
-                                            <option>All Categories</option>
+                                            <option>Todas las categorias</option>
                                             <option>Salon & Spa</option>
                                             <option>Medical</option>
                                             <option>Fitness</option>
@@ -192,33 +184,39 @@ const UserDashboard = ({ user }) => {
                                                     onClick={() => handleBookAppointment(business)}
                                                     className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all"
                                                 >
-                                                    Book Appointment
+                                                    Reservar cita
                                                 </button>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
+                                <BookingModal
+                                    show={showBookingModal}
+                                    onClose={() => setShowBookingModal(false)}
+                                    business={selectedBusiness}
+                                    onConfirm={handleConfirmAppointment}
+                                />
                             </div>
                         </>
                     )}
 
                     {activeTab === 'appointments' && (
                         <div className="bg-white rounded-lg shadow-md p-6">
-                            <h2 className="text-2xl font-bold mb-6">All Appointments</h2>
+                            <h2 className="text-2xl font-bold mb-6">Todas las citas</h2>
                             {/* Aquí iría la lista completa de citas */}
                         </div>
                     )}
 
                     {activeTab === 'favorites' && (
                         <div className="bg-white rounded-lg shadow-md p-6">
-                            <h2 className="text-2xl font-bold mb-6">Favorite Businesses</h2>
+                            <h2 className="text-2xl font-bold mb-6">Negocio favorito</h2>
                             {/* Aquí irían los negocios favoritos */}
                         </div>
                     )}
 
                     {activeTab === 'settings' && (
                         <div className="bg-white rounded-lg shadow-md p-6">
-                            <h2 className="text-2xl font-bold mb-6">Account Settings</h2>
+                            <h2 className="text-2xl font-bold mb-6">Ajustes de cuenta</h2>
                             {/* Aquí iría el formulario de configuración */}
                         </div>
                     )}

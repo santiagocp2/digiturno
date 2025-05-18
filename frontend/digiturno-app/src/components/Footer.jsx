@@ -8,35 +8,34 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
                         <h3 className="text-xl font-bold mb-4 flex items-center">
-                            <FaCalendarAlt className="mr-2" /> ScheduleEase
+                            <FaCalendarAlt className="mr-2" /> DigiTurno
                         </h3>
                         <p className="text-gray-400">
-                            Simplifying appointment scheduling for businesses and customers alike.
+                            Simplificando la programación de citas tanto para empresas como para clientes.
                         </p>
                     </div>
 
                     <div>
-                        <h4 className="font-bold mb-4">Quick Links</h4>
+                        <h4 className="font-bold mb-4">Enlaces rapidos</h4>
                         <ul className="space-y-2">
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Home</a></li>
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Businesses</a></li>
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">About Us</a></li>
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Contact</a></li>
+                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Inicio</a></li>
+                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Negocios</a></li>
+                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Nosotros</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 className="font-bold mb-4">Support</h4>
+                        <h4 className="font-bold mb-4">Apoyo</h4>
                         <ul className="space-y-2">
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Help Center</a></li>
+                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Centro de ayuda</a></li>
                             <li><a href="#" className="text-gray-400 hover:text-white transition-all">FAQs</a></li>
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Privacy Policy</a></li>
-                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Terms of Service</a></li>
+                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Politica de privacidad</a></li>
+                            <li><a href="#" className="text-gray-400 hover:text-white transition-all">Condiciones de servicio</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 className="font-bold mb-4">Contact Us</h4>
+                        <h4 className="font-bold mb-4">Contactenos</h4>
                         <ul className="space-y-2 text-gray-400">
                             <li className="flex items-center">
                                 <FaMapMarkerAlt className="mr-2" /> 123 Business Ave, Suite 100
@@ -67,7 +66,7 @@ const Footer = () => {
                 </div>
 
                 <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                    <p>&copy; {new Date().getFullYear()} ScheduleEase. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} DigiTurno. Todos los derechos reservados.</p>
                 </div>
             </div>
         </footer>

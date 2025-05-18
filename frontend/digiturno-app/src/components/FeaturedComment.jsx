@@ -41,7 +41,7 @@ const FeaturedComment = () => {
     return (
         <section className="py-12 bg-white">
             <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-12">What Our Users Say</h2>
+                <h2 className="text-3xl font-bold text-center mb-12">Lo que dicen nuestros usuarios</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {testimonials.map((testimonial, index) => (
                         <div key={index} className="bg-gray-50 p-6 rounded-lg">

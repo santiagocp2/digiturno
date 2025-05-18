@@ -10,14 +10,13 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
             <div className="container mx-auto px-4 py-3 flex justify-between items-center">
                 <div className="flex items-center space-x-2">
                     <FaCalendarAlt className="text-2xl" />
-                    <span className="text-xl font-bold">ScheduleEase</span>
+                    <span className="text-xl font-bold">DigiTurno</span>
                 </div>
 
                 <div className="hidden md:flex space-x-6">
-                    <a href="#" className="hover:text-blue-200 transition-all">Home</a>
-                    <a href="#" className="hover:text-blue-200 transition-all">Businesses</a>
-                    <a href="#" className="hover:text-blue-200 transition-all">About</a>
-                    <a href="#" className="hover:text-blue-200 transition-all">Contact</a>
+                    <a href="#" className="hover:text-blue-200 transition-all">Inicio</a>
+                    <a href="#" className="hover:text-blue-200 transition-all">Negocios</a>
+                    <a href="#" className="hover:text-blue-200 transition-all">Nosotros</a>
                 </div>
 
                 {!user && !business ? (
@@ -26,13 +25,13 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
                             onClick={onUserLogin}
                             className="bg-white text-blue-600 px-4 py-2 rounded-full font-medium hover:bg-blue-50 transition-all"
                         >
-                            <FaUser className="mr-2 inline" /> User Login
+                            <FaUser className="mr-2 inline" /> Usuario
                         </button>
                         <button
                             onClick={onBusinessLogin}
                             className="bg-blue-800 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-900 transition-all"
                         >
-                            <FaStore className="mr-2 inline" /> Business Login
+                            <FaStore className="mr-2 inline" /> Negocio
                         </button>
                     </div>
                 ) : (
@@ -44,7 +43,7 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
                             onClick={onLogout}
                             className="bg-red-600 text-white px-4 py-2 rounded-full font-medium hover:bg-red-700 transition-all"
                         >
-                            Logout
+                            Cerrar sesion
                         </button>
                     </div>
                 )}
@@ -60,16 +59,15 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
             {/* Mobile menu */}
             {mobileMenuOpen && (
                 <div className="md:hidden bg-blue-900 px-4 py-2">
-                    <a href="#" className="block py-2 hover:text-blue-200">Home</a>
-                    <a href="#" className="block py-2 hover:text-blue-200">Businesses</a>
-                    <a href="#" className="block py-2 hover:text-blue-200">About</a>
-                    <a href="#" className="block py-2 hover:text-blue-200">Contact</a>
+                    <a href="#" className="block py-2 hover:text-blue-200">Inicio</a>
+                    <a href="#" className="block py-2 hover:text-blue-200">Negocios</a>
+                    <a href="#" className="block py-2 hover:text-blue-200">Nosotros</a>
                     {user || business ? (
                         <button
                             onClick={onLogout}
                             className="block py-2 hover:text-blue-200 w-full text-left"
                         >
-                            Logout
+                            Cerrar sesion
                         </button>
                     ) : (
                         <>
@@ -77,13 +75,13 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
                                 onClick={onUserLogin}
                                 className="block py-2 hover:text-blue-200 w-full text-left"
                             >
-                                User Login
+                                Usuario
                             </button>
                             <button
                                 onClick={onBusinessLogin}
                                 className="block py-2 hover:text-blue-200 w-full text-left"
                             >
-                                Business Login
+                                Negocio
                             </button>
                         </>
                     )}
