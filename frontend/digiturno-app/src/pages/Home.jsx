@@ -1,9 +1,9 @@
 import '../App.css';
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/HeroSection";
 import HowItWorks from '../components/HowItWorks';
 import FeaturedComment from '../components/FeaturedComment';
-import PopularBusiness from '../components/PopularBusiness';
-import GetSarted from '../components/GetStarted';
+import PopularBusiness from '../components/PopularBusinesses';
+import GetSarted from '../components/CTA';
 
 function Home() {
 

@@ -1,4 +1,5 @@
 import '../App.css';
+import { FaCalendarAlt, FaMapMarkerAlt, FaPhone, FaEnvelope, FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
     return (
@@ -7,10 +8,13 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
                         <h3 className="text-xl font-bold mb-4 flex items-center">
-                            <i className="fas fa-calendar-alt mr-2"></i> ScheduleEase
+                            <FaCalendarAlt className="mr-2" /> ScheduleEase
                         </h3>
-                        <p className="text-gray-400">Simplifying appointment scheduling for businesses and customers alike.</p>
+                        <p className="text-gray-400">
+                            Simplifying appointment scheduling for businesses and customers alike.
+                        </p>
                     </div>
+
                     <div>
                         <h4 className="font-bold mb-4">Quick Links</h4>
                         <ul className="space-y-2">
@@ -20,6 +24,7 @@ const Footer = () => {
                             <li><a href="#" className="text-gray-400 hover:text-white transition-all">Contact</a></li>
                         </ul>
                     </div>
+
                     <div>
                         <h4 className="font-bold mb-4">Support</h4>
                         <ul className="space-y-2">
@@ -29,41 +34,44 @@ const Footer = () => {
                             <li><a href="#" className="text-gray-400 hover:text-white transition-all">Terms of Service</a></li>
                         </ul>
                     </div>
+
                     <div>
                         <h4 className="font-bold mb-4">Contact Us</h4>
                         <ul className="space-y-2 text-gray-400">
                             <li className="flex items-center">
-                                <i className="fas fa-map-marker-alt mr-2"></i> 123 Business Ave, Suite 100
+                                <FaMapMarkerAlt className="mr-2" /> 123 Business Ave, Suite 100
                             </li>
                             <li className="flex items-center">
-                                <i className="fas fa-phone mr-2"></i> (555) 123-4567
+                                <FaPhone className="mr-2" /> (555) 123-4567
                             </li>
                             <li className="flex items-center">
-                                <i className="fas fa-envelope mr-2"></i> support@scheduleease.com
+                                <FaEnvelope className="mr-2" /> support@scheduleease.com
                             </li>
                         </ul>
+
                         <div className="flex space-x-4 mt-4">
                             <a href="#" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition-all">
-                                <i className="fab fa-facebook-f"></i>
+                                <FaFacebookF />
                             </a>
                             <a href="#" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition-all">
-                                <i className="fab fa-twitter"></i>
+                                <FaTwitter />
                             </a>
                             <a href="#" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-600 transition-all">
-                                <i className="fab fa-instagram"></i>
+                                <FaInstagram />
                             </a>
                             <a href="#" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-red-600 transition-all">
-                                <i className="fab fa-youtube"></i>
+                                <FaYoutube />
                             </a>
                         </div>
                     </div>
                 </div>
+
                 <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                    <p>&copy; 2023 ScheduleEase. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} ScheduleEase. All rights reserved.</p>
                 </div>
             </div>
         </footer>
     );
-}
+};
 
 export default Footer;
