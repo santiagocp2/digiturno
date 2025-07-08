@@ -1,30 +1,55 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
 import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
-import Header from '../components/Header';
-import Appointment from '../components/BookingModal';
 import Dashboard from '../pages/Dashboard';
+import { AuthProvider } from '../auths/AuthProvider';
+import { GlobalProvider } from '../contexts/GlobalContext';
+import Layout from '../components/Layout';
+import GlobalSpinner from '../components/GlobalSpinner';
 
-const Layout = ({ children }) => (
-    <>
-        <Header />
-        {children}
-    </>
-)
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Layout />,
+        children: [
+            { 
+                index: true, 
+                element: <Home /> 
+            },
+            {
+                path: "/",
+                element: <ProtectedRoute />,
+                children: [
+                    {
+                        path: "/appointment_user",
+                        element: <Dashboard />,
+                    },
+                    {
+                        path: "/appointment_business",
+                        element: <Dashboard />,
+                    }
+                ]
+            },
+            { 
+                path: "*", 
+                element: <NotFound /> 
+            },
+        ]
+    },
+
+]);
 
 function GlobalRouter() {
 
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Layout><Home /></Layout>} />
-                <Route path="/home" element={<Layout><Home /></Layout>} />
-                <Route path="/appointment_user" element={<Layout><Dashboard handleViewChange={user}/></Layout>} />
-                <Route path="/appointment_business" element={<Layout><Dashboard handleViewChange={user}/></Layout>} />
-                <Route path="/booking" element={<Layout><Appointment /></Layout>} />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+            {/* Wrap the router in AuthProvider to provide authentication context */}
+            <GlobalProvider>
+                <GlobalSpinner />
+                <RouterProvider router={router} />
+            </GlobalProvider>
+        </AuthProvider>
     );
 }
 

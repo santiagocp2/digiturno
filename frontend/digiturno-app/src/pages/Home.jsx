@@ -1,29 +1,26 @@
 import '../App.css';
-import SearchBar from "../components/HeroSection";
+import HeroSection from '../components/HeroSection';
+import PopularBusinesses from '../components/PopularBusinesses';
 import HowItWorks from '../components/HowItWorks';
 import FeaturedComment from '../components/FeaturedComment';
-import PopularBusiness from '../components/PopularBusinesses';
-import GetSarted from '../components/CTA';
+import CTA from '../components/CTA';
+import { useGlobal } from '../hooks/useGlobal';
 
 function Home() {
-
+    const { handleUserSignup, handleBusinessSignup } = useGlobal();
     return (
-        <div>
-            <SearchBar />
-            <div id="mainContent">
-                {/* <!-- Popular Businesses Section --> */}
-                <PopularBusiness />
-
-                {/* <!-- How It Works Section --> */}
+        <div className="bg-gray-50 font-sans min-h-screen flex flex-col">
+            <main className="flex-grow">
+                <HeroSection />
+                <PopularBusinesses />
                 <HowItWorks />
-
-                {/* <!-- Testimonials Section --> */}
                 <FeaturedComment />
+                <CTA
+                    onUserSignup={handleUserSignup}
+                    onBusinessSignup={handleBusinessSignup}
+                />
 
-                {/* <!-- CTA Section --> */}
-                <GetSarted />
-            </div>
-            <br />
+            </main>
         </div>
     );
 }

@@ -1,13 +1,14 @@
 import '../App.css';
 import BusinessDashboard from '../components/BusinessDashboard';
 import UserDashboard from '../components/UserDashboard';
+import { useGlobal } from '../hooks/useGlobal';
 
-function Dashboard() {
-    const [currentView, setCurrentView] = useState('user'); 
+function Dashboard({ user, business }) {
+    const currentView = useGlobal().currentView;
     return (
         <div>
-            {currentView=== 'user' && <UserDashboard />}
-            {currentView=== 'business' && <BusinessDashboard/>}
+            {currentView === 'userDashboard' && <UserDashboard user={user} />}
+            {currentView === 'businessDashboard' && <BusinessDashboard business={business} />}
         </div>
     );
 }
