@@ -105,7 +105,7 @@ const BookingModal = ({
                                 />
                                 <div className="mt-2 text-sm text-gray-500">
                                     <p>Horas de trabajo: {business.workingHours.start} - {business.workingHours.end}</p>
-                                    <p>Duracion de la cita: {business.appointmentDuration} minutos</p>
+                                    <p>Duracion del turno: {business.appointmentDuration} minutos</p>
                                 </div>
                             </div>
 

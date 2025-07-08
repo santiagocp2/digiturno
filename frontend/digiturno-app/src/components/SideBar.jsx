@@ -4,14 +4,14 @@ import { FaTachometerAlt, FaCalendar, FaUsers, FaCog, FaChartLine, FaSignOutAlt,
 const SideBar = ({ type, activeTab, setActiveTab }) => {
     const userLinks = [
         { icon: <FaTachometerAlt className="mr-2" />, label: 'Tablero', tab: 'dashboard' },
-        { icon: <FaCalendar className="mr-2" />, label: 'Mis citas', tab: 'appointments' },
+        { icon: <FaCalendar className="mr-2" />, label: 'Mis turnos', tab: 'appointments' },
         { icon: <FaHeart className="mr-2" />, label: 'Favoritos', tab: 'favorites' },
         { icon: <FaCog className="mr-2" />, label: 'Ajustes', tab: 'settings' }
     ];
 
     const businessLinks = [
         { icon: <FaTachometerAlt className="mr-2" />, label: 'Tablero', tab: 'dashboard' },
-        { icon: <FaCalendar className="mr-2" />, label: 'Citas', tab: 'appointments' },
+        { icon: <FaCalendar className="mr-2" />, label: 'Turnos', tab: 'appointments' },
         { icon: <FaUsers className="mr-2" />, label: 'Clientes', tab: 'customers' },
         { icon: <FaCog className="mr-2" />, label: 'Ajustes', tab: 'settings' },
         { icon: <FaChartLine className="mr-2" />, label: 'Reporte', tab: 'analytics' }

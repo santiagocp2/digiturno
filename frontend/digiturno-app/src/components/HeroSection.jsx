@@ -5,9 +5,9 @@ const HeroSection = () => {
   return (
     <section className="gradient-bg text-white py-16">
       <div className="container mx-auto px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Reserva citas sin esfuerzo</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">Reserva turnos sin esfuerzo</h1>
         <p className="text-xl mb-8 max-w-2xl mx-auto">
-          Encuentra los mejores negocios y agenda citas con solo unos clics.
+          Encuentra los mejores negocios y agenda turnos con solo unos clics.
         </p>
         
         <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg">

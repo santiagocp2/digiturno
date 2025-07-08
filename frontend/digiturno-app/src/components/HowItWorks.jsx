@@ -6,17 +6,17 @@ const HowItWorks = () => {
         {
             icon: <FaSearch className="text-blue-600 text-2xl" />,
             title: "Busca un negocio",
-            description: "Busque en nuestro directorio de empresas locales que ofrecen servicios de citas."
+            description: "Busque en nuestro directorio de empresas locales que ofrecen servicios de turnos."
         },
         {
             icon: <FaCalendarCheck className="text-green-600 text-2xl" />,
-            title: "Reservar una cita",
+            title: "Reservar un turno",
             description: "Selecciona tu fecha y hora preferida entre los espacios disponibles y reserva al instante."
         },
         {
             icon: <FaCheckCircle className="text-purple-600 text-2xl" />,
             title: "Obtener confirmación",
-            description: "Reciba confirmación instantánea para su cita programada."
+            description: "Reciba confirmación instantánea para su turno programado."
         }
     ];
 

@@ -98,7 +98,7 @@ const UserDashboard = ({ user }) => {
                         <>
                             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
                                 <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-2xl font-bold">Citas</h2>
+                                    <h2 className="text-2xl font-bold">Turnos</h2>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -184,7 +184,7 @@ const UserDashboard = ({ user }) => {
                                                     onClick={() => handleBookAppointment(business)}
                                                     className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all"
                                                 >
-                                                    Reservar cita
+                                                    Reservar turno
                                                 </button>
                                             </div>
                                         </div>
@@ -202,8 +202,8 @@ const UserDashboard = ({ user }) => {
 
                     {activeTab === 'appointments' && (
                         <div className="bg-white rounded-lg shadow-md p-6">
-                            <h2 className="text-2xl font-bold mb-6">Todas las citas</h2>
-                            {/* Aquí iría la lista completa de citas */}
+                            <h2 className="text-2xl font-bold mb-6">Todos los turnos</h2>
+                            {/* Aquí iría la lista completa de turnos */}
                         </div>
                     )}
 

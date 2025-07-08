@@ -68,9 +68,9 @@ const BusinessDashboard = ({ business }) => {
                         <>
                             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
                                 <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-2xl font-bold">Administrar citas</h2>
+                                    <h2 className="text-2xl font-bold">Administrar turnos</h2>
                                     <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all">
-                                        <FaPlus className="mr-2" />Agendar cita
+                                        <FaPlus className="mr-2" />Agendar turno
                                     </button>
                                 </div>
 
@@ -139,7 +139,7 @@ const BusinessDashboard = ({ business }) => {
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-gray-700 mb-2">Duracion de la cita</label>
+                                            <label className="block text-gray-700 mb-2">Duracion del turno</label>
                                             <select
                                                 value={workingHours.duration}
                                                 onChange={(e) => setWorkingHours({ ...workingHours, duration: e.target.value })}
@@ -197,8 +197,8 @@ const BusinessDashboard = ({ business }) => {
 
                     {activeTab === 'appointments' && (
                         <div className="bg-white rounded-lg shadow-md p-6">
-                            <h2 className="text-2xl font-bold mb-6">Todas las citas</h2>
-                            {/* Aquí iría la lista completa de citas */}
+                            <h2 className="text-2xl font-bold mb-6">Todos los turnos</h2>
+                            {/* Aquí iría la lista completa de turnos */}
                         </div>
                     )}
 

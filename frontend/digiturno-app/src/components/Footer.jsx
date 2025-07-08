@@ -11,7 +11,7 @@ const Footer = () => {
                             <FaCalendarAlt className="mr-2" /> DigiTurno
                         </h3>
                         <p className="text-gray-400">
-                            Simplificando la programación de citas tanto para empresas como para clientes.
+                            Simplificando la programación de turnos tanto para empresas como para clientes.
                         </p>
                     </div>
 
