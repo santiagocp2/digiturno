@@ -60,29 +60,7 @@ export const AuthProvider = ({ children }) => {
                 )
             });
             if (response.status === 201 || response.ok) {
-                const data_user = await response.json();
-                if (type === 'user') {
-                    setUser({
-                        id: data_user.idUsuario,
-                        name: data_user.nombre,
-                        lastname: data_user.apellido,
-                        phone: data_user.telefono,
-                        address: data_user.direccion,
-                        email: data_user.correo,
-                        role: data_user.idTipoUsuario
-                    });
-                } else if (type === 'business') {
-                    setBusiness({
-                        id: data_user.idUsuario,
-                        name: data_user.nombre,
-                        lastname: data_user.apellido,
-                        phone: data_user.telefono,
-                        address: data_user.direccion,
-                        email: data_user.correo,
-                        role: data_user.idTipoUsuario
-                    });
-                }
-                setTypeUser(data_user.idTipoUsuario);
+                console.log('Usuario registrado exitosamente');
             } else {
                 console.log('Error en el registro:', response);
             }
