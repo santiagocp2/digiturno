@@ -9,8 +9,7 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
         <nav className="gradient-bg text-white shadow-lg">
             <div className="container mx-auto px-4 py-3 flex justify-between items-center">
                 <div className="flex items-center space-x-2">
-                    <FaCalendarAlt className="text-2xl" />
-                    <span className="text-xl font-bold">DigiTurno</span>
+                    <img src="/logo_digiturno.png" width={150} className="text-2xl" />
                 </div>
 
                 <div className="hidden md:flex space-x-6">
@@ -37,7 +36,7 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
                 ) : (
                     <div className="flex items-center space-x-4">
                         <span className="font-medium">
-                            {user ? `Welcome, ${user.name}` : `Business: ${business.name}`}
+                            {user ? `Bienvenido, ${user.name}` : `Negocio: ${business.name}`}
                         </span>
                         <button
                             onClick={onLogout}

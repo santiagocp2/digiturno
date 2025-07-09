@@ -8,7 +8,7 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
                         <h3 className="text-xl font-bold mb-4 flex items-center">
-                            <FaCalendarAlt className="mr-2" /> DigiTurno
+                            <img src="/logo_digiturno.png" width={150} />
                         </h3>
                         <p className="text-gray-400">
                             Simplificando la programación de turnos tanto para empresas como para clientes.

@@ -91,7 +91,7 @@ const UserDashboard = ({ user }) => {
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="flex flex-col md:flex-row gap-6">
-                <SideBar type="user" activeTab={activeTab} setActiveTab={setActiveTab} />
+                <SideBar data={user} type="user" activeTab={activeTab} setActiveTab={setActiveTab} />
 
                 <div className="flex-1">
                     {activeTab === 'dashboard' && (

@@ -14,7 +14,7 @@ const router = createBrowserRouter([
         element: <Layout />,
         children: [
             { 
-                index: true, 
+                path: "/",
                 element: <Home /> 
             },
             {
@@ -22,11 +22,7 @@ const router = createBrowserRouter([
                 element: <ProtectedRoute />,
                 children: [
                     {
-                        path: "/appointment_user",
-                        element: <Dashboard />,
-                    },
-                    {
-                        path: "/appointment_business",
+                        path: "/dashboard",
                         element: <Dashboard />,
                     }
                 ]

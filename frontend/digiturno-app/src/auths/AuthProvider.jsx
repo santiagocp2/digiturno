@@ -6,6 +6,7 @@ export const AuthContext = createContext(
         API_URL: '',
         user: null,
         business: null,
+        typeUser: null,
         loading: false,
         showLoading() { },
         hideLoading() { },
@@ -19,6 +20,7 @@ export const AuthProvider = ({ children }) => {
     const [IsAuth, setIsAuth] = useState(false);
     const [user, setUser] = useState(null);
     const [business, setBusiness] = useState(null);
+    const [typeUser, setTypeUser] = useState(null);
     const [token, setToken] = useState(null);
     // Import the API URL from environment variables
     const API_URL = import.meta.env.VITE_API_URL;
@@ -31,6 +33,8 @@ export const AuthProvider = ({ children }) => {
     const handleLogout = () => {
         setUser(null);
         setBusiness(null);
+        setIsAuth(false);
+        setTypeUser(null);
     };
 
     async function create_user(data) {
@@ -51,30 +55,36 @@ export const AuthProvider = ({ children }) => {
                         contrasena: password,
                         telefono: phone,
                         direccion: address,
-                        rol: (type === 'user' ? 'CLIENTE' : 'NEGOCIO')
+                        idTipoUsuario: (type === 'user' ? 1 : 2)
                     }
                 )
             });
-            if (response.ok) {
-                console.log('Registro exitoso');
-                const data_response = await response.json();
+            if (response.status === 201 || response.ok) {
+                const data_user = await response.json();
                 if (type === 'user') {
                     setUser({
-                        id: data_response.id,
-                        name: data_response.nombre,
-                        email: data_response.correo,
-                        role: data_response.rol
+                        id: data_user.idUsuario,
+                        name: data_user.nombre,
+                        lastname: data_user.apellido,
+                        phone: data_user.telefono,
+                        address: data_user.direccion,
+                        email: data_user.correo,
+                        role: data_user.idTipoUsuario
                     });
-                } else {
+                } else if (type === 'business') {
                     setBusiness({
-                        id: data_response.id,
-                        name: data_response.nombre,
-                        email: data_response.correo,
-                        role: data_response.rol
+                        id: data_user.idUsuario,
+                        name: data_user.nombre,
+                        lastname: data_user.apellido,
+                        phone: data_user.telefono,
+                        address: data_user.direccion,
+                        email: data_user.correo,
+                        role: data_user.idTipoUsuario
                     });
                 }
+                setTypeUser(data_user.idTipoUsuario);
             } else {
-                console.log('Error en el registro:', response.statusText);
+                console.log('Error en el registro:', response);
             }
         } catch (error) {
             console.log(error);
@@ -102,8 +112,32 @@ export const AuthProvider = ({ children }) => {
             });
             if (response.ok) {
                 const data_response = await response.json();
-                setToken(data_response.token);
-                console.log('Inicio de sesión exitoso: ', data_response);
+                const data_user = data_response.data.user;
+                const idTipo = data_user.idTipoUsuario; // Assuming the response contains user type
+                if (idTipo === 1) {
+                    setUser({
+                        id: data_user.idUsuario,
+                        name: data_user.nombre,
+                        lastname: data_user.apellido,
+                        phone: data_user.telefono,
+                        address: data_user.direccion,
+                        email: data_user.correo,
+                        role: idTipo
+                    });
+                } else if (idTipo === 2) {
+                    setBusiness({
+                        id: data_user.idUsuario,
+                        name: data_user.nombre,
+                        lastname: data_user.apellido,
+                        phone: data_user.telefono,
+                        address: data_user.direccion,
+                        email: data_user.correo,
+                        role: idTipo
+                    });
+                }
+                setTypeUser(idTipo);
+                setToken(data_response.data.token);
+                await setIsAuth(true);
             } else {
                 console.log('Error en el inicio de sesión:', response.statusText);
             }
@@ -111,7 +145,6 @@ export const AuthProvider = ({ children }) => {
             console.log(error);
         } finally {
             hideLoading();
-            setIsAuth(true);
         }
     }
     return (
@@ -119,6 +152,7 @@ export const AuthProvider = ({ children }) => {
             IsAuth,
             user,
             business,
+            typeUser,
             loading,
             showLoading,
             hideLoading,

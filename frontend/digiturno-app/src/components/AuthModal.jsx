@@ -2,6 +2,7 @@ import '../App.css';
 import { useState } from 'react';
 import { FaTimes, FaUser, FaStore, FaArrowLeft } from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
     const [isRegister, setIsRegister] = useState(false);
@@ -15,6 +16,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
         businessType: '',
         address: ''
     });
+    const navigate = useNavigate();
     const { create_user, login_user } = useAuth();
 
     const handleChange = (e) => {
@@ -62,6 +64,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                 password: formData.password
             });
             onLogin();
+            navigate('/dashboard');
         }
     };
 
@@ -200,6 +203,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                                     onChange={handleChange}
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     required
+                                    current-password={formData.password.toString()}
                                     minLength="6"
                                 />
                             </div>
@@ -214,6 +218,7 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
                                         onChange={handleChange}
                                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         required
+                                        new-password={formData.confirmPassword.toString()}
                                         minLength="6"
                                     />
                                 </div>
