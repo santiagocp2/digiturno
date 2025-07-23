@@ -1,9 +1,13 @@
 import '../App.css';
-import { FaCalendarAlt, FaUser, FaStore, FaBars, FaTimes } from 'react-icons/fa';
+import { FaUser, FaStore, FaBars, FaTimes } from 'react-icons/fa';
 import { useState } from 'react';
+import { Link } from 'react-router-dom'; // ✅ para navegación sin recarga
 
 const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    // 👉 Texto dinámico según el tipo de usuario
+    const dashboardLabel = user ? 'Mis Turnos' : business ? 'Mi Negocio' : 'Dashboard';
 
     return (
         <nav className="gradient-bg text-white shadow-lg">
@@ -13,9 +17,9 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
                 </div>
 
                 <div className="hidden md:flex space-x-6">
-                    <a href="#" className="hover:text-blue-200 transition-all">Inicio</a>
-                    <a href="#" className="hover:text-blue-200 transition-all">Negocios</a>
-                    <a href="#" className="hover:text-blue-200 transition-all">Nosotros</a>
+                    <Link to="/" className="hover:text-blue-200 transition-all">Inicio</Link>
+                    <Link to="/negocios" className="hover:text-blue-200 transition-all">Negocios</Link>
+                    <Link to="#" className="hover:text-blue-200 transition-all">Nosotros</Link>
                 </div>
 
                 {!user && !business ? (
@@ -35,14 +39,17 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
                     </div>
                 ) : (
                     <div className="flex items-center space-x-4">
-                        <span className="font-medium">
-                            {user ? `Bienvenido, ${user.name}` : `Negocio: ${business.name}`}
-                        </span>
+                        <Link
+                            to="/dashboard"
+                            className="bg-blue-600 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-700 transition-all"
+                        >
+                            {dashboardLabel}
+                        </Link>
                         <button
                             onClick={onLogout}
                             className="bg-red-600 text-white px-4 py-2 rounded-full font-medium hover:bg-red-700 transition-all"
                         >
-                            Cerrar sesion
+                            Cerrar sesión
                         </button>
                     </div>
                 )}
@@ -58,15 +65,25 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
             {/* Mobile menu */}
             {mobileMenuOpen && (
                 <div className="md:hidden bg-blue-900 px-4 py-2">
-                    <a href="#" className="block py-2 hover:text-blue-200">Inicio</a>
-                    <a href="#" className="block py-2 hover:text-blue-200">Negocios</a>
-                    <a href="#" className="block py-2 hover:text-blue-200">Nosotros</a>
+                    <Link to="/" className="block py-2 hover:text-blue-200">Inicio</Link>
+                    <Link to="/negocios" className="block py-2 hover:text-blue-200">Negocios</Link>
+                    <Link to="#" className="block py-2 hover:text-blue-200">Nosotros</Link>
+
+                    {(user || business) && (
+                        <Link
+                            to="/dashboard"
+                            className="block py-2 hover:text-blue-200"
+                        >
+                            {dashboardLabel}
+                        </Link>
+                    )}
+
                     {user || business ? (
                         <button
                             onClick={onLogout}
                             className="block py-2 hover:text-blue-200 w-full text-left"
                         >
-                            Cerrar sesion
+                            Cerrar sesión
                         </button>
                     ) : (
                         <>

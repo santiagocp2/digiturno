@@ -1,11 +1,7 @@
-import './App.css';
 import GlobalRouter from './routes/GlobalRouter';
 
 function App() {
-
-  return (
-    <GlobalRouter />
-  );
+    return <GlobalRouter />;
 }
 
 export default App;

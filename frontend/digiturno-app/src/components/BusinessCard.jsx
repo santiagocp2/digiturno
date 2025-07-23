@@ -1,5 +1,8 @@
 import '../App.css';
-import { FaCut, FaHeartbeat, FaDumbbell, FaTooth, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import {
+    FaCut, FaHeartbeat, FaDumbbell, FaTooth,
+    FaStar, FaStarHalfAlt
+} from 'react-icons/fa';
 
 const BusinessCard = ({ business }) => {
     const getIcon = () => {
@@ -13,9 +16,11 @@ const BusinessCard = ({ business }) => {
     };
 
     const renderRating = () => {
+        const rating = parseFloat(business.rating || 0);
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 !== 0;
+
         const stars = [];
-        const fullStars = Math.floor(business.rating);
-        const hasHalfStar = business.rating % 1 !== 0;
 
         for (let i = 0; i < fullStars; i++) {
             stars.push(<FaStar key={`full-${i}`} className="text-yellow-400" />);
@@ -38,21 +43,38 @@ const BusinessCard = ({ business }) => {
             <div className="h-48 bg-gray-100 flex items-center justify-center">
                 {getIcon()}
             </div>
-            <div className="p-6">
-                <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-bold">{business.name}</h3>
+            <div className="p-6 flex flex-col justify-between h-full">
+                <div className="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 className="text-xl font-bold text-blue-800">{business.nombre}</h3>
+                        {business.categoria && (
+                            <p className="text-sm text-gray-500">{business.categoria}</p>
+                        )}
+                    </div>
                     <div className="flex">
                         {renderRating()}
                     </div>
                 </div>
-                <p className="text-gray-600 mb-4">{business.description}</p>
-                <div className="flex justify-between items-center">
-                    <div className="flex items-center text-gray-500">
-                        <span>{business.distance}</span>
-                    </div>
-                    <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all">
+
+                <p className="text-gray-600 mb-4 text-sm">
+                    {business.descripcion || 'Este negocio aún no tiene descripción.'}
+                </p>
+
+                <p className="text-gray-500 text-sm mb-4">
+                    <strong>Dirección:</strong> {business.direccion || 'No disponible'}
+                </p>
+
+                <div className="flex justify-between items-center mt-auto">
+                    <span className="text-xs text-gray-400">
+                        {business.distance || 'Cercano a ti'}
+                    </span>
+                    <a
+                        href={`/turnos/${business.idNegocio}`}
+                        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all text-sm"
+                        aria-label="Agendar turno"
+                    >
                         Agendar turno
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
