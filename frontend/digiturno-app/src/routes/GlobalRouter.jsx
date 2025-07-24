@@ -3,7 +3,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
 import Dashboard from '../pages/Dashboard';
-import BusinessList from '../pages/BusinessList'; // ✅ nuevo import
+import BusinessExplorer from '../pages/BusinessExplorer';
 import { AuthProvider } from '../auths/AuthProvider';
 import { GlobalProvider } from '../contexts/GlobalContext';
 import Layout from '../components/Layout';
@@ -20,9 +20,10 @@ const router = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: "/negocios", // ✅ nueva ruta pública
-                element: <BusinessList />
-            },
+                path: "/negocios",
+                element: <BusinessExplorer />,
+            }
+            ,
             {
                 path: "/",
                 element: <ProtectedRoute />,

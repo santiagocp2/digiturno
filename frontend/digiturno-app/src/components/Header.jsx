@@ -1,27 +1,28 @@
 import '../App.css';
 import { FaUser, FaStore, FaBars, FaTimes } from 'react-icons/fa';
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; // ✅ para navegación sin recarga
+import { Link } from 'react-router-dom';
 
 const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    // 👉 Texto dinámico según el tipo de usuario
     const dashboardLabel = user ? 'Mis Turnos' : business ? 'Mi Negocio' : 'Dashboard';
 
     return (
         <nav className="gradient-bg text-white shadow-lg">
             <div className="container mx-auto px-4 py-3 flex justify-between items-center">
                 <div className="flex items-center space-x-2">
-                    <img src="/logo_digiturno.png" width={150} className="text-2xl" />
+                    <img src="/logo_digiturno.png" width={150} alt="DigiTurno Logo" className="text-2xl" />
                 </div>
 
+                {/* Desktop Menu */}
                 <div className="hidden md:flex space-x-6">
                     <Link to="/" className="hover:text-blue-200 transition-all">Inicio</Link>
                     <Link to="/negocios" className="hover:text-blue-200 transition-all">Negocios</Link>
                     <Link to="#" className="hover:text-blue-200 transition-all">Nosotros</Link>
                 </div>
 
+                {/* Auth Buttons */}
                 {!user && !business ? (
                     <div className="flex space-x-4">
                         <button
@@ -54,6 +55,7 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
                     </div>
                 )}
 
+                {/* Mobile Toggle */}
                 <button
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     className="md:hidden text-2xl"
@@ -62,7 +64,7 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
                 </button>
             </div>
 
-            {/* Mobile menu */}
+            {/* Mobile Menu */}
             {mobileMenuOpen && (
                 <div className="md:hidden bg-blue-900 px-4 py-2">
                     <Link to="/" className="block py-2 hover:text-blue-200">Inicio</Link>
