@@ -3,9 +3,11 @@ import { FaSearch } from 'react-icons/fa';
 import BookingModal from '../components/BookingModal';
 import BusinessCard from '../components/BusinessCard';
 import { useAuth } from '../hooks/useAuth';
+import { useGlobal } from '../hooks/useGlobal';
 
 const BusinessExplorer = () => {
-    const { IsAuth, showLoginModal } = useAuth();
+    const { IsAuth } = useAuth();
+    const { handleLogin } = useGlobal();
     const [query, setQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('Todas');
     const [showBookingModal, setShowBookingModal] = useState(false);
@@ -43,11 +45,7 @@ const BusinessExplorer = () => {
 
     const handleBook = (business) => {
         if (!IsAuth) {
-            if (typeof showLoginModal === 'function') {
-                showLoginModal();
-            } else {
-                console.warn("showLoginModal no está disponible en AuthContext");
-            }
+            handleLogin('user');
             return;
         }
         setSelectedBusiness(business);
