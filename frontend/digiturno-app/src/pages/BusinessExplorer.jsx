@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaSearch } from 'react-icons/fa';
-import BookingModal from '../components/BookingModal';
-import BusinessCard from '../components/BusinessCard';
+import BusinessList from '../components/BusinessList';
 import { useAuth } from '../hooks/useAuth';
 import { useGlobal } from '../hooks/useGlobal';
 
@@ -15,7 +13,7 @@ const BusinessExplorer = () => {
     const [businesses, setBusinesses] = useState([]);
 
     useEffect(() => {
-        fetch('http://52.14.112.147:8080/negocio')
+        fetch(`${import.meta.env.VITE_API_URL}/negocio`)
             .then(res => res.json())
             .then(data => {
                 if (data.success && Array.isArray(data.data)) {
@@ -24,7 +22,7 @@ const BusinessExplorer = () => {
                         name: b.nombre,
                         description: b.descripcion || '',
                         urlImagen: b.urlImagen || '',
-                        distance: '1 km', // opcional: simulado
+                        address: b.direccion || '',
                         category: 'General', // simulado
                         rating: 4.5, // simulado
                         workingHours: {
@@ -38,11 +36,6 @@ const BusinessExplorer = () => {
             .catch(error => console.error("Error cargando negocios:", error));
     }, []);
 
-    const filtered = businesses.filter(b =>
-        (selectedCategory === 'Todas' || b.category === selectedCategory) &&
-        b.name.toLowerCase().includes(query.toLowerCase())
-    );
-
     const handleBook = (business) => {
         if (!IsAuth) {
             handleLogin('user');
@@ -55,39 +48,13 @@ const BusinessExplorer = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             <h2 className="text-2xl font-bold mb-6">Explorar negocios</h2>
-
-            <div className="flex gap-2 mb-6">
-                <input
-                    type="text"
-                    placeholder="Buscar negocios..."
-                    value={query}
-                    onChange={e => setQuery(e.target.value)}
-                    className="flex-grow px-4 py-3 border rounded-l-lg focus:outline-none"
-                />
-                <select
-                    value={selectedCategory}
-                    onChange={e => setSelectedCategory(e.target.value)}
-                    className="border-t border-b border-r px-4 py-3 focus:outline-none"
-                >
-                    <option>Todas</option>
-                    <option>General</option>
-                </select>
-                <button className="bg-blue-600 text-white px-6 py-3 rounded-r-lg hover:bg-blue-700 transition-all">
-                    <FaSearch />
-                </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filtered.map(business => (
-                    <BusinessCard key={business.id} business={business} onBook={handleBook} />
-                ))}
-            </div>
-
-            <BookingModal
-                show={showBookingModal}
-                onClose={() => setShowBookingModal(false)}
-                business={selectedBusiness}
-                onConfirm={() => setShowBookingModal(false)}
+            <BusinessList
+                businesses={businesses}
+                onBook={handleBook}
+                showBookingModal={showBookingModal}
+                setShowBookingModal={setShowBookingModal}
+                selectedBusiness={selectedBusiness}
+                setSelectedBusiness={setSelectedBusiness}
             />
         </div>
     );
