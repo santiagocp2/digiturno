@@ -220,22 +220,26 @@ function Home() {
                         </div>
                     ) : (
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            {categories.map((category, index) => (
-                                <div 
-                                    key={index}
-                                    onClick={() => navigate(`/negocios?category=${encodeURIComponent(category)}`)}
-                                    className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 cursor-pointer hover:-translate-y-1 border border-gray-200 hover:border-blue-200"
-                                >
-                                    <div className="text-3xl mb-3">
-                                        {index % 6 === 0 ? '💄' : 
-                                         index % 6 === 1 ? '🏥' : 
-                                         index % 6 === 2 ? '💪' : 
-                                         index % 6 === 3 ? '🦷' : 
-                                         index % 6 === 4 ? '✂️' : '🎯'}
+                            {categories.map((category, index) => {
+                                // Si la categoría es un objeto con nombre, usar el nombre
+                                const categoryName = typeof category === 'object' && category !== null && 'nombre' in category ? category.nombre : category;
+                                return (
+                                    <div 
+                                        key={category.idCategoria || index}
+                                        onClick={() => navigate(`/negocios?category=${encodeURIComponent(categoryName)}`)}
+                                        className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 cursor-pointer hover:-translate-y-1 border border-gray-200 hover:border-blue-200"
+                                    >
+                                        <div className="text-3xl mb-3">
+                                            {index % 6 === 0 ? '💄' : 
+                                             index % 6 === 1 ? '🏥' : 
+                                             index % 6 === 2 ? '💪' : 
+                                             index % 6 === 3 ? '🦷' : 
+                                             index % 6 === 4 ? '✂️' : '🎯'}
+                                        </div>
+                                        <h3 className="font-semibold text-gray-800 text-sm">{categoryName}</h3>
                                     </div>
-                                    <h3 className="font-semibold text-gray-800 text-sm">{category}</h3>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     )}
                 </div>
