@@ -34,36 +34,31 @@ function Home() {
         fetchHomeData();
     }, []);
 
+    const API_URL = import.meta.env.VITE_API_URL;
     const fetchHomeData = async () => {
         try {
             setLoading(true);
             console.log('🔄 Iniciando carga de datos del home...');
-            
-            // Fetch businesses
+            // Fetch businesses (negocio, singular, según gateway)
             console.log('📋 Obteniendo negocios...');
-            const businessResponse = await fetch('https://digiturnounir.site/api/negocios/all', {
+            const businessResponse = await fetch(`${API_URL}/negocio/list-details`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': '*/*'
                 },
                 body: JSON.stringify({
                     targetMethod: 'GET'
                 })
             });
-            
             console.log('📋 Respuesta negocios:', businessResponse.status);
             if (businessResponse.ok) {
                 const businessData = await businessResponse.json();
                 console.log('📋 Datos de negocios:', businessData);
-                
-                if (Array.isArray(businessData)) {
-                    setRecentBusinesses(businessData.slice(0, 6));
-                    setStats(prev => ({ ...prev, totalBusinesses: businessData.length }));
-                    console.log('✅ Negocios cargados:', businessData.length);
-                } else if (businessData.data && Array.isArray(businessData.data)) {
+                if (Array.isArray(businessData.data)) {
                     setRecentBusinesses(businessData.data.slice(0, 6));
                     setStats(prev => ({ ...prev, totalBusinesses: businessData.data.length }));
-                    console.log('✅ Negocios cargados (desde data):', businessData.data.length);
+                    console.log('✅ Negocios cargados:', businessData.data.length);
                 } else {
                     console.log('⚠️ Formato de datos de negocios inesperado:', businessData);
                 }
@@ -71,27 +66,26 @@ function Home() {
                 console.error('❌ Error al obtener negocios:', businessResponse.status);
             }
 
-            // Fetch categories
+            // Fetch categories (negocio/categorias, singular/plural según gateway)
             console.log('🏷️ Obteniendo categorías...');
-            const categoriesResponse = await fetch('https://digiturnounir.site/api/negocios/categorias', {
+            const categoriesResponse = await fetch(`${API_URL}/negocio/categorias`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': '*/*'
                 },
                 body: JSON.stringify({
                     targetMethod: 'GET'
                 })
             });
-            
             console.log('🏷️ Respuesta categorías:', categoriesResponse.status);
             if (categoriesResponse.ok) {
                 const categoriesData = await categoriesResponse.json();
                 console.log('🏷️ Datos de categorías:', categoriesData);
-                
-                if (Array.isArray(categoriesData)) {
-                    setCategories(categoriesData.slice(0, 8));
-                    setStats(prev => ({ ...prev, totalCategories: categoriesData.length }));
-                    console.log('✅ Categorías cargadas:', categoriesData.length);
+                if (Array.isArray(categoriesData.data)) {
+                    setCategories(categoriesData.data.slice(0, 8));
+                    setStats(prev => ({ ...prev, totalCategories: categoriesData.data.length }));
+                    console.log('✅ Categorías cargadas:', categoriesData.data.length);
                 } else {
                     console.log('⚠️ Formato de datos de categorías inesperado:', categoriesData);
                 }
