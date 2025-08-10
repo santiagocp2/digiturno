@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import Home from '../pages/Home';
+import About from '../pages/About';
 import NotFound from '../pages/NotFound';
 import Dashboard from '../pages/Dashboard';
 import BusinessExplorer from '../pages/BusinessExplorer';
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Home />
+            },
+            {
+                path: "/nosotros",
+                element: <About />
             },
             {
                 path: "/negocios",

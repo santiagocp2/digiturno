@@ -47,31 +47,51 @@ const BookingModal = ({
 
     const availableTimes = generateAvailableTimes();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!selectedDate || !selectedTime) return;
 
-        // Calcular hora de fin automáticamente
-        const [hours, minutes] = selectedTime.value.split(':').map(Number);
-        const endTime = new Date(selectedDate);
-        endTime.setHours(hours, minutes + business.appointmentDuration, 0, 0);
-
-        const endTimeStr = endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-        const appointment = {
-            id: Date.now(),
-            business: business.name,
-            businessId: business.id,
-            date: selectedDate.toDateString(),
-            time: `${selectedTime.display} - ${endTimeStr}`,
-            service: 'General Service', // Puedes agregar un selector de servicios
-            notes,
-            status: 'pending',
-            customer: "user.name" // Asumiendo que tienes el usuario en contexto
+        // Preparar datos para el API usando la nueva estructura
+        const turnoData = {
+            negocioId: business.id,
+            clienteId: 66, // ID por defecto - puedes cambiarlo por el usuario logueado
+            tipoServicio: 'General Service', // Puedes agregar un selector de servicios
+            notas: notes || null
         };
 
-        onConfirm(appointment);
-        onClose();
+        const requestData = {
+            targetMethod: "POST",
+            body: turnoData
+        };
+
+        try {
+            const API_URL = import.meta.env.VITE_API_URL;
+            const response = await fetch(`${API_URL}/turnos`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                console.log('Turno creado exitosamente:', result.data);
+                onConfirm(result.data);
+                onClose();
+                // Reset form
+                setSelectedDate(new Date());
+                setSelectedTime(null);
+                setNotes('');
+            } else {
+                console.error('Error al crear turno:', result.message);
+                alert('Error al crear el turno: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error de conexión:', error);
+            alert('Error de conexión al crear el turno');
+        }
     };
 
     if (!show || !business) return null;

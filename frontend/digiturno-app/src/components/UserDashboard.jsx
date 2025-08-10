@@ -4,6 +4,8 @@ import { FaCalendarDay, FaClock, FaEdit, FaTimes, FaSearch } from 'react-icons/f
 import SideBar from './SideBar';
 import BookingModal from './BookingModal';
 import BusinessCard from './BusinessCard';
+import BusinessList from './BusinessList';
+import UserTurnosList from './UserTurnosList';
 import { useAuth } from '../hooks/useAuth';
 
 const UserDashboard = ({ user }) => {
@@ -11,67 +13,51 @@ const UserDashboard = ({ user }) => {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [showBookingModal, setShowBookingModal] = useState(false);
     const [selectedBusiness, setSelectedBusiness] = useState(null);
-    const [query, setQuery] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('Todas');
+    const [turnosRefreshTrigger, setTurnosRefreshTrigger] = useState(0);
+    const [favoriteBusinesses, setFavoriteBusinesses] = useState([]);
+    const [refreshFavorites, setRefreshFavorites] = useState(0);
 
-    const [appointments, setAppointments] = useState([
-        {
-            id: 1,
-            business: 'Elite Salon',
-            service: 'Haircut & Styling',
-            date: 'June 15, 2023',
-            time: '10:00 AM - 11:00 AM',
-            status: 'confirmed'
-        },
-        {
-            id: 2,
-            business: 'City Medical',
-            service: 'Annual Checkup',
-            date: 'June 18, 2023',
-            time: '2:30 PM - 3:15 PM',
-            status: 'pending'
-        }
-    ]);
+    // Función para refrescar favoritos
+    const handleFavoriteChange = () => {
+        setRefreshFavorites(prev => prev + 1);
+    };
 
-    const [businesses, setBusinesses] = useState([]);
 
-    useEffect(() => {
-        fetch('http://52.14.112.147:8080/negocio')
-            .then(res => res.json())
-            .then(data => {
-                if (data.success && Array.isArray(data.data)) {
-                    setBusinesses(data.data.map(b => ({
-                        id: b.idNegocio,
-                        name: b.nombre,
-                        description: b.descripcion || '',
-                        urlImagen: b.urlImagen || '',
-                        distance: '1 km', // Opcional: simulado
-                        category: 'General', // Simulado
-                        rating: 4.5, // Simulado
-                        workingHours: {
-                            start: '08:00',
-                            end: '17:00'
-                        },
-                        appointmentDuration: 30
-                    })));
-                }
-            })
-            .catch(error => console.error("Error cargando negocios:", error));
-    }, []);
 
-    const filteredBusinesses = businesses.filter(b =>
-        (selectedCategory === 'Todas' || b.category === selectedCategory) &&
-        b.name.toLowerCase().includes(query.toLowerCase())
-    );
+
 
     const handleConfirmAppointment = (newAppointment) => {
-        setAppointments([...appointments, {
-            ...newAppointment,
-            id: Date.now(),
-            status: 'confirmed',
-            customer: 'user name',
-        }]);
+        // Trigger refresh of turnos list
+        setTurnosRefreshTrigger(prev => prev + 1);
     };
+
+    const loadFavoriteBusinesses = async () => {
+        if (!user?.id) return;
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/favorites/user/${user.id}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ targetMethod: 'GET' })
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                if (result.success && Array.isArray(result.data)) {
+                    setFavoriteBusinesses(result.data);
+                }
+            }
+        } catch (error) {
+            console.error('Error loading favorite businesses:', error);
+        }
+    };
+
+    // Cargar favoritos cuando cambie el usuario o la pestaña activa
+    useEffect(() => {
+        if (activeTab === 'favorites') {
+            loadFavoriteBusinesses();
+        }
+    }, [activeTab, user?.id, refreshFavorites]);
 
     const handleBookAppointment = (business) => {
         if (!IsAuth) {
@@ -83,7 +69,8 @@ const UserDashboard = ({ user }) => {
     };
 
     const handleCancelAppointment = (id) => {
-        setAppointments(appointments.filter(appt => appt.id !== id));
+        // Implementar cancelación de turno aquí si es necesario
+        setTurnosRefreshTrigger(prev => prev + 1);
     };
 
     const getStatusBadge = (status) => {
@@ -106,97 +93,61 @@ const UserDashboard = ({ user }) => {
 
                 <div className="flex-1">
                     {activeTab === 'dashboard' && (
-                        <>
-                            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-2xl font-bold">Turnos</h2>
-                                </div>
+                        <div className="bg-white rounded-lg shadow-md p-6">
+                            <h2 className="text-2xl font-bold mb-6">Negocios Disponibles</h2>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {appointments.map(appointment => (
-                                        <div key={appointment.id} className="border rounded-lg p-4 hover:shadow-md transition-all">
-                                            <div className="flex justify-between items-start mb-3">
-                                                <div>
-                                                    <h3 className="font-bold">{appointment.business}</h3>
-                                                    <p className="text-sm text-gray-500">{appointment.service}</p>
-                                                </div>
-                                                {getStatusBadge(appointment.status)}
-                                            </div>
-                                            <div className="flex items-center text-gray-600 mb-3">
-                                                <FaCalendarDay className="mr-2" />
-                                                <span>{appointment.date}</span>
-                                            </div>
-                                            <div className="flex items-center text-gray-600 mb-4">
-                                                <FaClock className="mr-2" />
-                                                <span>{appointment.time}</span>
-                                            </div>
-                                            <div className="flex space-x-2">
-                                                <button className="flex-1 bg-blue-50 text-blue-600 py-2 rounded-lg hover:bg-blue-100 transition-all">
-                                                    <FaEdit className="mr-1 inline" /> Reagendar
-                                                </button>
-                                                <button
-                                                    onClick={() => handleCancelAppointment(appointment.id)}
-                                                    className="flex-1 bg-red-50 text-red-600 py-2 rounded-lg hover:bg-red-100 transition-all"
-                                                >
-                                                    <FaTimes className="mr-1 inline" /> Cancelar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="bg-white rounded-lg shadow-md p-6">
-                                <h2 className="text-2xl font-bold mb-6">Buscar negocios</h2>
-
-                                <div className="mb-6">
-                                    <div className="flex">
-                                        <input
-                                            type="text"
-                                            placeholder="Buscar negocios..."
-                                            value={query}
-                                            onChange={e => setQuery(e.target.value)}
-                                            className="flex-grow px-4 py-3 border rounded-l-lg focus:outline-none"
-                                        />
-                                        <select
-                                            value={selectedCategory}
-                                            onChange={e => setSelectedCategory(e.target.value)}
-                                            className="border-t border-b border-r px-4 py-3 focus:outline-none"
-                                        >
-                                            <option>Todas</option>
-                                            <option>General</option>
-                                        </select>
-                                        <button className="bg-blue-600 text-white px-6 py-3 rounded-r-lg hover:bg-blue-700 transition-all">
-                                            <FaSearch />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {filteredBusinesses.map(business => (
-                                        <BusinessCard key={business.id} business={business} onBook={handleBookAppointment} />
-                                    ))}
-                                </div>
-
-                                <BookingModal
-                                    show={showBookingModal}
-                                    onClose={() => setShowBookingModal(false)}
-                                    business={selectedBusiness}
-                                    onConfirm={handleConfirmAppointment}
-                                />
-                            </div>
-                        </>
+                            <BusinessList
+                                onBook={handleBookAppointment}
+                                showBookingModal={showBookingModal}
+                                setShowBookingModal={setShowBookingModal}
+                                selectedBusiness={selectedBusiness}
+                                setSelectedBusiness={setSelectedBusiness}
+                                onConfirm={handleConfirmAppointment}
+                                filterCategory={true}
+                                showInteractions={true}
+                                onFavoriteChange={handleFavoriteChange}
+                                onRatingChange={handleFavoriteChange}
+                            />
+                        </div>
                     )}
 
                     {activeTab === 'appointments' && (
                         <div className="bg-white rounded-lg shadow-md p-6">
-                            <h2 className="text-2xl font-bold mb-6">Todos los turnos</h2>
+                            <h2 className="text-2xl font-bold mb-6">Todos mis turnos</h2>
+                            <UserTurnosList 
+                                userId={user?.id} 
+                                refreshTrigger={turnosRefreshTrigger}
+                            />
                         </div>
                     )}
 
                     {activeTab === 'favorites' && (
                         <div className="bg-white rounded-lg shadow-md p-6">
-                            <h2 className="text-2xl font-bold mb-6">Negocio favorito</h2>
+                            <h2 className="text-2xl font-bold mb-6">Mis Negocios Favoritos</h2>
+                            
+                            {favoriteBusinesses.length === 0 ? (
+                                <div className="text-center py-16 bg-gradient-to-br from-pink-50 to-red-100 rounded-2xl">
+                                    <div className="text-6xl mb-6">💝</div>
+                                    <h3 className="text-2xl font-bold text-gray-800 mb-2">No tienes favoritos aún</h3>
+                                    <p className="text-gray-600 mb-6">Marca negocios como favoritos para encontrarlos fácilmente aquí</p>
+                                    <div className="bg-white rounded-lg p-4 max-w-md mx-auto shadow-lg">
+                                        <p className="text-sm text-gray-500">💡 Consejo: Haz clic en el corazón ❤️ de cualquier negocio para agregarlo a favoritos</p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className={`grid grid-cols-1 ${columns} gap-6`}>
+                                    {favoriteBusinesses.map((business) => (
+                                        <BusinessCard 
+                                            key={business.id} 
+                                            business={business} 
+                                            onBook={handleBookAppointment}
+                                            showInteractions={true}
+                                            onFavoriteChange={handleFavoriteChange}
+                                            onRatingChange={handleFavoriteChange}
+                                        />
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     )}
 

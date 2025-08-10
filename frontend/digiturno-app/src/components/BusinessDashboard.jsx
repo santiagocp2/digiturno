@@ -2,9 +2,11 @@ import '../App.css';
 import { useState } from 'react';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import SideBar from './SideBar';
+import TurnosList from './TurnosList';
 
 const BusinessDashboard = ({ business }) => {
     const [activeTab, setActiveTab] = useState('dashboard');
+    const [refreshTurnos, setRefreshTurnos] = useState(0);
     const [appointments, setAppointments] = useState([
         {
             id: 1,
@@ -69,47 +71,18 @@ const BusinessDashboard = ({ business }) => {
                             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-2xl font-bold">Administrar turnos</h2>
-                                    <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all">
-                                        <FaPlus className="mr-2" />Agendar turno
+                                    <button 
+                                        onClick={() => setRefreshTurnos(prev => prev + 1)}
+                                        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all"
+                                    >
+                                        <FaPlus className="mr-2" />Refrescar turnos
                                     </button>
                                 </div>
 
-                                <div className="overflow-x-auto">
-                                    <table className="w-full">
-                                        <thead>
-                                            <tr className="bg-gray-100 text-gray-600 text-left">
-                                                <th className="p-3">Hora</th>
-                                                <th className="p-3">Cliente</th>
-                                                <th className="p-3">Servicio</th>
-                                                <th className="p-3">Estado</th>
-                                                <th className="p-3">Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {appointments.map(appointment => (
-                                                <tr key={appointment.id} className="border-b hover:bg-gray-50">
-                                                    <td className="p-3">{appointment.time}</td>
-                                                    <td className="p-3">{appointment.customer}</td>
-                                                    <td className="p-3">{appointment.service}</td>
-                                                    <td className="p-3">
-                                                        {getStatusBadge(appointment.status)}
-                                                    </td>
-                                                    <td className="p-3">
-                                                        <button className="text-blue-600 hover:text-blue-800 mr-3">
-                                                            <FaEdit />
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleDeleteAppointment(appointment.id)}
-                                                            className="text-red-600 hover:text-red-800"
-                                                        >
-                                                            <FaTrash />
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <TurnosList 
+                                    businessOwnerId={business?.id} 
+                                    refreshTrigger={refreshTurnos}
+                                />
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

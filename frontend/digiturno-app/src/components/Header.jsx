@@ -19,7 +19,7 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
                 <div className="hidden md:flex space-x-6">
                     <Link to="/" className="hover:text-blue-200 transition-all">Inicio</Link>
                     <Link to="/negocios" className="hover:text-blue-200 transition-all">Negocios</Link>
-                    <Link to="#" className="hover:text-blue-200 transition-all">Nosotros</Link>
+                    <Link to="/nosotros" className="hover:text-blue-200 transition-all">Nosotros</Link>
                 </div>
 
                 {/* Auth Buttons */}
@@ -69,7 +69,7 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
                 <div className="md:hidden bg-blue-900 px-4 py-2">
                     <Link to="/" className="block py-2 hover:text-blue-200">Inicio</Link>
                     <Link to="/negocios" className="block py-2 hover:text-blue-200">Negocios</Link>
-                    <Link to="#" className="block py-2 hover:text-blue-200">Nosotros</Link>
+                    <Link to="/nosotros" className="block py-2 hover:text-blue-200">Nosotros</Link>
 
                     {(user || business) && (
                         <Link
