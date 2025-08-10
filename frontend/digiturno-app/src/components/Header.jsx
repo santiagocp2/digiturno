@@ -110,3 +110,4 @@ const Header = ({ onUserLogin, onBusinessLogin, user, business, onLogout }) => {
 };
 
 export default Header;
+

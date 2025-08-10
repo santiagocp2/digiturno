@@ -235,3 +235,4 @@ const BusinessCard = ({ business, onBook, showInteractions = true, onFavoriteCha
 };
 
 export default BusinessCard;
+

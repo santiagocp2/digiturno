@@ -156,3 +156,4 @@ const BusinessList = ({ onBook, showBookingModal, setShowBookingModal, selectedB
 };
 
 export default BusinessList;
+
