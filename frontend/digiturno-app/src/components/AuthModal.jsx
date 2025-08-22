@@ -546,3 +546,4 @@ const AuthModal = ({ type, show, onClose, onLogin, onRegisterSuccess }) => {
 
 export default AuthModal;
 
+
