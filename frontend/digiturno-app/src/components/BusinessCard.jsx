@@ -1,81 +1,82 @@
-import { FaCut, FaHeartbeat, FaStar, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
+import { FaCut, FaHeartbeat, FaMapMarkerAlt, FaHeart, FaStar } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 
-const BusinessCard = ({ business, onBook, showInteractions = true, onFavoriteChange, onRatingChange }) => {
+const BusinessCard = ({ business, onBook, showInteractions = true, onFavoriteChange }) => {
     const { user } = useAuth();
-    const [userRating, setUserRating] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [userRating, setUserRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
 
+    // Cargar calificación del usuario al montar
     useEffect(() => {
         if (user?.id && business?.id) {
-            loadUserInteractions();
+            loadFavoriteStatus();
+            loadUserRating();
         }
     }, [user?.id, business?.id]);
 
-    const loadUserInteractions = async () => {
+    const loadFavoriteStatus = async () => {
         try {
-            // Cargar calificación del usuario
-            const ratingResponse = await fetch(`${import.meta.env.VITE_API_URL}/ratings/user/${user.id}/business/${business.id}`, {
+            const favoriteResponse = await fetch(`${import.meta.env.VITE_API_URL}/favoritos/isFavorito/${user.id}/${business.id}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ targetMethod: 'GET' })
             });
-            
-            if (ratingResponse.ok) {
-                const ratingData = await ratingResponse.json();
-                if (ratingData.success && ratingData.data) {
-                    setUserRating(ratingData.data.rating || 0);
-                }
-            }
-
-            // Cargar estado de favorito
-            const favoriteResponse = await fetch(`${import.meta.env.VITE_API_URL}/favorites/user/${user.id}/business/${business.id}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ targetMethod: 'GET' })
-            });
-            
             if (favoriteResponse.ok) {
                 const favoriteData = await favoriteResponse.json();
-                setIsFavorite(favoriteData.success && favoriteData.data?.isFavorite);
+                setIsFavorite(favoriteData.success && (favoriteData.data === true || favoriteData.data === "true" || favoriteData.data === 1));
             }
         } catch (error) {
-            console.error('Error loading user interactions:', error);
+            console.error('Error loading favorite status:', error);
         }
     };
 
-    const handleRating = async (rating) => {
-        if (!user?.id) return;
-
+    // Cargar la calificación del usuario desde la BD
+    const loadUserRating = async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/ratings`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/calificaciones/negocio/${business.id}/cliente/${user.id}`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data.success && data.data) {
+                    setUserRating(data.data.puntaje);
+                } else {
+                    setUserRating(0);
+                }
+            }
+        } catch (error) {
+            console.error('Error loading user rating:', error);
+        }
+    };
+
+    // Guardar la calificación en la BD
+    const handleRating = async (rating) => {
+        if (!user?.id || !business?.id) {
+            console.error('Faltan datos de usuario o negocio');
+            return;
+        }
+        setUserRating(rating);
+        try {
+            const fechaFormateada = new Date().toISOString().slice(0, 19);
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/calificaciones`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     targetMethod: 'POST',
                     body: {
-                        userId: user.id,
-                        businessId: business.id,
-                        rating: rating
+                        clienteId: user.id,
+                        negocioId: business.id,
+                        puntaje: rating,
+                        comentario: '',
+                        fecha: fechaFormateada
                     }
                 })
             });
-
-            if (response.ok) {
-                const result = await response.json();
-                if (result.success) {
-                    setUserRating(rating);
-                    console.log('✅ Calificación guardada:', rating);
-                    // Notificar al componente padre para refrescar
-                    if (onRatingChange) {
-                        onRatingChange(business.id, rating);
-                    }
-                }
+            if (!res.ok) {
+                console.error('Error saving rating');
             }
         } catch (error) {
-            console.error('❌ Error saving rating:', error);
+            console.error('Error saving rating:', error);
         }
     };
 
@@ -83,17 +84,12 @@ const BusinessCard = ({ business, onBook, showInteractions = true, onFavoriteCha
         if (!user?.id) return;
 
         try {
-            const method = isFavorite ? 'DELETE' : 'POST';
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/favorites`, {
+            const url = `${import.meta.env.VITE_API_URL}/favoritos/${user.id}/${business.id}`;
+            const targetMethod = isFavorite ? 'DELETE' : 'POST';
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    targetMethod: method,
-                    body: {
-                        userId: user.id,
-                        businessId: business.id
-                    }
-                })
+                body: JSON.stringify({ targetMethod })
             });
 
             if (response.ok) {

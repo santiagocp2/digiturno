@@ -216,7 +216,27 @@ export const AuthProvider = ({ children }) => {
                 if (idTipo === 1) {
                     setUser(userObj);
                 } else if (idTipo === 2) {
-                    setBusiness(userObj);
+                    // Obtener datos completos del negocio usando el idUsuario
+                    try {
+                        const negocioResponse = await fetch(`${API_URL}/negocio/usuario/${userObj.id}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${result.data.token}`
+                            }
+                        });
+                        const negocioData = await negocioResponse.json();
+                        if (negocioResponse.ok && negocioData.success && negocioData.data) {
+                            setBusiness(negocioData.data);
+                            localStorage.setItem('business', JSON.stringify(negocioData.data));
+                        } else {
+                            setBusiness(userObj); // fallback mínimo
+                            localStorage.setItem('business', JSON.stringify(userObj));
+                        }
+                    } catch (err) {
+                        setBusiness(userObj); // fallback mínimo
+                        localStorage.setItem('business', JSON.stringify(userObj));
+                    }
                 }
 
                 setTypeUser(idTipo);

@@ -1,5 +1,5 @@
 import '../App.css';
-import { FaTachometerAlt, FaCalendar, FaUsers, FaCog, FaChartLine, FaSignOutAlt, FaHeart } from 'react-icons/fa';
+import { FaTachometerAlt, FaCalendar, FaUsers, FaCog, FaChartLine, FaHeart } from 'react-icons/fa';
 
 const SideBar = ({ data, type, activeTab, setActiveTab }) => {
     const userLinks = [
@@ -59,10 +59,6 @@ const SideBar = ({ data, type, activeTab, setActiveTab }) => {
                         {link.label}
                     </button>
                 ))}
-
-                <button className="w-full text-left block py-3 px-4 hover:bg-red-50 hover:text-red-500 rounded-lg text-gray-700 transition-all duration-200 flex items-center">
-                    <FaSignOutAlt className="mr-2" />Cerrar sesión
-                </button>
             </nav>
         </div>
     );

@@ -1,7 +1,13 @@
 import '../App.css';
 import BusinessCard from './BusinessCard';
+import BookingModal from './BookingModal';
+import { useState } from 'react';
 
 const PopularBusinesses = () => {
+    const [showBookingModal, setShowBookingModal] = useState(false);
+    const [businessData, setBusinessData] = useState(null);
+    const [editingTurno, setEditingTurno] = useState(null);
+
     const businesses = [
         {
             id: 1,
@@ -41,13 +47,34 @@ const PopularBusinesses = () => {
         }
     ];
 
+    // Función para abrir el modal de reserva
+    const handleBook = async (business) => {
+        // Aquí podrías hacer fetch al backend si necesitas más datos del negocio
+        setBusinessData(business);
+        setEditingTurno(null);
+        setShowBookingModal(true);
+    };
+
+    const handleBookingModalClose = () => {
+        setShowBookingModal(false);
+        setBusinessData(null);
+        setEditingTurno(null);
+    };
+
+    const handleBookingModalConfirm = (turnoCreado) => {
+        // Aquí podrías refrescar la lista, mostrar mensaje, etc.
+        setShowBookingModal(false);
+        setBusinessData(null);
+        setEditingTurno(null);
+    };
+
     return (
         <section className="py-12 bg-white">
             <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold text-center mb-12">Negocios populares</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {businesses.map(business => (
-                        <BusinessCard key={business.id} business={business} />
+                        <BusinessCard key={business.id} business={business} onBook={handleBook} />
                     ))}
                 </div>
                 <div className="text-center mt-10">
@@ -56,6 +83,16 @@ const PopularBusinesses = () => {
                     </button>
                 </div>
             </div>
+            {/* Modal de reserva independiente para esta pestaña */}
+            {showBookingModal && (
+                <BookingModal
+                    show={showBookingModal}
+                    onClose={handleBookingModalClose}
+                    business={businessData}
+                    onConfirm={handleBookingModalConfirm}
+                    turno={editingTurno}
+                />
+            )}
         </section>
     );
 };
